@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einladung – Buzzword Bingo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 48px 24px 60px;
+            color: #1a1a1a;
+            line-height: 1.6;
+            background: #fff;
+            text-align: center;
+        }
+        h1 { font-size: 1.9em; margin-bottom: 4px; }
+        .grad {
+            background: linear-gradient(120deg, #7b61ff, #ef5ba1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .code {
+            font-size: 2.4em;
+            font-weight: 800;
+            letter-spacing: 8px;
+            margin: 24px 0 8px;
+            color: #7b61ff;
+        }
+        .hint { color: #888; font-size: 0.9em; }
+        .btn {
+            display: inline-block;
+            margin: 28px 0 8px;
+            padding: 16px 32px;
+            border-radius: 999px;
+            background: linear-gradient(120deg, #7b61ff, #ef5ba1);
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        a { color: #7b61ff; }
+        .foot { margin-top: 40px; font-size: 0.85em; color: #888; }
+    </style>
+</head>
+<body>
+
+<h1 class="grad">Buzzword Bingo</h1>
+<p>Du wurdest eingeladen!</p>
+
+<div class="code" id="code">––––––</div>
+<p class="hint" id="kind">Einladungscode</p>
+
+<a class="btn" id="open" href="#">In der App öffnen</a>
+<p class="hint">Noch keine App? Dann gib den Code oben einfach manuell in der App ein.</p>
+
+<p class="foot">
+    <a href="index.html">Über die App</a> ·
+    <a href="privacy.html">Datenschutz</a> ·
+    <a href="impressum.html">Impressum</a>
+</p>
+
+<script>
+    // Read the invite from the query string and wire up the deep link.
+    var params = new URLSearchParams(window.location.search);
+    var code = (params.get("code") || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+    var type = params.get("type") === "room" ? "room" : "friend";
+
+    if (code) {
+        document.getElementById("code").textContent = code;
+        document.getElementById("kind").textContent =
+            type === "room" ? "Raum-Code" : "Freundescode";
+        document.getElementById("open").href =
+            "buzzwordbingo://" + (type === "room" ? "join" : "add") + "?code=" + code;
+    } else {
+        document.getElementById("code").textContent = "?";
+        document.getElementById("kind").textContent = "Kein Code in der Einladung gefunden.";
+        document.getElementById("open").style.display = "none";
+    }
+</script>
+
+</body>
+</html>
